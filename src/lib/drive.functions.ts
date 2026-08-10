@@ -40,6 +40,6 @@ export const getDriveVideoUrl = createServerFn({ method: "GET" })
     const uuid = uuidMatch[1];
     const videoUrl = `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t&uuid=${uuid}`;
 
-    return { url: videoUrl };
+    return { url: `/api/video/${driveId}?uuid=${uuid}` };
   });
 

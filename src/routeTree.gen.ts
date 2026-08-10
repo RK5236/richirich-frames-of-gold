@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkSlugRouteImport } from './routes/work.$slug'
+import { Route as ApiVideoDriveIdRouteImport } from './routes/api/video/$driveId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const WorkSlugRoute = WorkSlugRouteImport.update({
   path: '/work/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiVideoDriveIdRoute = ApiVideoDriveIdRouteImport.update({
+  id: '/api/video/$driveId',
+  path: '/api/video/$driveId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/api/video/$driveId': typeof ApiVideoDriveIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/api/video/$driveId': typeof ApiVideoDriveIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/api/video/$driveId': typeof ApiVideoDriveIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/work/$slug'
+  fullPaths: '/' | '/work/$slug' | '/api/video/$driveId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/work/$slug'
-  id: '__root__' | '/' | '/work/$slug'
+  to: '/' | '/work/$slug' | '/api/video/$driveId'
+  id: '__root__' | '/' | '/work/$slug' | '/api/video/$driveId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   WorkSlugRoute: typeof WorkSlugRoute
+  ApiVideoDriveIdRoute: typeof ApiVideoDriveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof WorkSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/video/$driveId': {
+      id: '/api/video/$driveId'
+      path: '/api/video/$driveId'
+      fullPath: '/api/video/$driveId'
+      preLoaderRoute: typeof ApiVideoDriveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   WorkSlugRoute: WorkSlugRoute,
+  ApiVideoDriveIdRoute: ApiVideoDriveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
