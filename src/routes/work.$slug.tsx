@@ -13,12 +13,18 @@ export const Route = createFileRoute("/work/$slug")({
     return { project, next: nextProject(params.slug) };
   },
   head: ({ loaderData }) => {
+    const canonicalBase = "https://richirichhq.in";
     const title = loaderData
       ? `${loaderData.project.title} — Richi Rich`
       : "Project — Richi Rich";
     const description = loaderData
       ? `${loaderData.project.title}: ${loaderData.project.description}`
       : "Selected film work by Richi Rich, filmmaker and cinematographer in Noida.";
+    const slug = loaderData?.project.slug;
+    const canonicalUrl = slug ? `${canonicalBase}/work/${slug}` : `${canonicalBase}/work`;
+    const ogImageUrl = loaderData?.project.still
+      ? `${canonicalBase}${loaderData.project.still}`
+      : `${canonicalBase}/og-image.jpg`;
     return {
       meta: [
         { title },
@@ -26,8 +32,18 @@ export const Route = createFileRoute("/work/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: canonicalUrl },
+        { property: "og:image", content: ogImageUrl },
+        {
+          property: "og:image:alt",
+          content: loaderData
+            ? `${loaderData.project.title} cinematic project still by Richi Rich`
+            : "Cinematic project still by Richi Rich",
+        },
         { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:image", content: ogImageUrl },
       ],
+      links: [{ rel: "canonical", href: canonicalUrl }],
     };
   },
   component: ProjectPage,
@@ -87,7 +103,7 @@ function ProjectPage() {
           <Reveal>
             <img
               src={project.still}
-              alt={`${project.title} — supporting still`}
+              alt={`${project.title} cinematic still from Richi Rich portfolio`}
               loading="lazy"
               width={1600}
               height={1000}

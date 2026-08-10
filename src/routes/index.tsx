@@ -13,7 +13,11 @@ import portrait from "@/assets/portrait-richi.jpg";
 import ctaStill from "@/assets/still-aerial.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
+  head: () => {
+    const canonicalUrl = "https://richirichhq.in";
+    const ogImageUrl = "https://richirichhq.in/og-image.jpg";
+
+    return {
     meta: [
       { title: "Richi Rich — Filmmaker, Cinematographer & FPV Pilot, Noida" },
       {
@@ -28,9 +32,15 @@ export const Route = createFileRoute("/")({
           "Cinematic films, brand content, concerts, events and weddings. Noida, India. Try us once. You'll stick around.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: canonicalUrl },
+      { property: "og:image", content: ogImageUrl },
+      { property: "og:image:alt", content: "Cinematic concert frame from Richi Rich's portfolio" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImageUrl },
     ],
-  }),
+    links: [{ rel: "canonical", href: canonicalUrl }],
+    };
+  },
   component: Home,
 });
 
@@ -190,7 +200,7 @@ function WorkCard({ project, i }: { project: (typeof projects)[number]; i: numbe
       <div className={`relative overflow-hidden bg-card ${ratio}`}>
         <img
           src={project.still}
-          alt={`${project.title} — ${project.kicker}`}
+          alt={`${project.title} project still - ${project.kicker} by Richi Rich`}
           loading="lazy"
           width={1600}
           height={1000}

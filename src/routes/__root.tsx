@@ -73,7 +73,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: () => {
+    const canonicalUrl = "https://richirichhq.in";
+    const ogImageUrl = "https://richirichhq.in/og-image.jpg";
+
+    return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -91,9 +95,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Cinematic films, brand content, concerts, events and weddings. Noida, India.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: canonicalUrl },
+      { property: "og:image", content: ogImageUrl },
+      { property: "og:image:alt", content: "Cinematic concert frame from Richi Rich's portfolio" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: ogImageUrl },
     ],
     links: [
+      { rel: "canonical", href: canonicalUrl },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -106,7 +115,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
-  }),
+    };
+  },
 
   shellComponent: RootShell,
   component: RootComponent,

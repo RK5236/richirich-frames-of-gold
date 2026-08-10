@@ -36,7 +36,7 @@ export function DrivePlayer({
         >
           <img
             src={poster}
-            alt={`${title} — cinematic still`}
+            alt={`${title} video poster frame by Richi Rich`}
             loading="lazy"
             className="h-full w-full object-cover grayscale transition-transform duration-[1400ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
           />
