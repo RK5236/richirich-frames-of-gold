@@ -19,8 +19,24 @@ export const Route = createFileRoute("/api/video/$driveId")({
 
         const range = request.headers.get("range");
         const headers = new Headers();
+
+        const maxChunkSize = 1024 * 1024; // 1 MB
+        const totalSize = 167833519; // We should get the actual size from a HEAD request
+
+        let upstreamRange: string | null = null;
         if (range) {
-          headers.set("Range", range);
+          const match = range.match(/^bytes=(\d+)-(\d+)?$/);
+          if (match) {
+            const start = parseInt(match[1], 10);
+            const end = match[2] ? parseInt(match[2], 10) : null;
+            const requestedEnd = end ?? Math.min(start + maxChunkSize - 1, totalSize - 1);
+            const cappedEnd = Math.min(requestedEnd, start + maxChunkSize - 1);
+            upstreamRange = `bytes=${start}-${cappedEnd}`;
+          }
+        }
+
+        if (upstreamRange) {
+          headers.set("Range", upstreamRange);
         }
 
         const upstream = await fetch(googleUrl, {
