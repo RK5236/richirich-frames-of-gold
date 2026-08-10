@@ -30,7 +30,6 @@ export interface Project {
 
 const drive = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
 
-export const driveEmbed = drive;
 
 export const projects: Project[] = [
   {
