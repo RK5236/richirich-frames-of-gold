@@ -78,7 +78,9 @@ export const Route = createFileRoute("/api/video/$driveId")({
         }
         responseHeaders.set("access-control-allow-origin", "*");
 
-        return new Response(upstream.body, {
+        const body = await upstream.arrayBuffer();
+
+        return new Response(body, {
           status: upstream.status,
           statusText: upstream.statusText,
           headers: responseHeaders,
