@@ -25,10 +25,11 @@ export const Route = createFileRoute("/api/video/$driveId")({
 
         let upstreamRange: string | null = null;
         if (range) {
-          const match = range.match(/^bytes=(\d+)-(\d+)?$/);
+          const match = /^bytes=(\d+)-(\d+)?$/.exec(range);
           if (match) {
-            const start = parseInt(match[1], 10);
-            const end = match[2] ? parseInt(match[2], 10) : null;
+            const start = parseInt(match[1] as string, 10);
+            const endRaw = match[2];
+            const end = endRaw ? parseInt(endRaw, 10) : null;
             const requestedEnd = end ?? Math.min(start + maxChunkSize - 1, totalSize - 1);
             const cappedEnd = Math.min(requestedEnd, start + maxChunkSize - 1);
             upstreamRange = `bytes=${start}-${cappedEnd}`;
