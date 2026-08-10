@@ -60,7 +60,11 @@ export function MaskLines({
 }) {
   const { ref, shown } = useInView<HTMLDivElement>(0.25);
   return (
-    <div ref={ref} className={className}>
+    <div
+      ref={ref}
+      className={`font-display font-extrabold uppercase tracking-[-0.04em] ${className}`}
+    >
+
       {lines.map((line, i) => (
         <span key={line + i} data-shown={shown} className={`mask-line ${lineClassName}`}>
           <span style={{ transitionDelay: `${i * 110}ms` }}>{line}</span>
