@@ -54,7 +54,6 @@ export function DrivePlayer({
           playsInline
           muted
           preload="auto"
-          crossOrigin="anonymous"
           className="absolute inset-0 h-full w-full bg-black"
           onError={() => setError(true)}
         />
