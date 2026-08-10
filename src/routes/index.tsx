@@ -392,7 +392,7 @@ function About() {
         >
           <img
             src={portrait}
-            alt="Richi Rich, filmmaker and cinematographer based in Noida, holding a cinema camera"
+            alt="Richi Rich, filmmaker and cinematographer, seated in his studio beside a softbox lighting setup"
             loading="lazy"
             width={1200}
             height={1500}
