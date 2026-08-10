@@ -17,11 +17,21 @@ export const Route = createFileRoute("/api/video/$driveId")({
 
         const googleUrl = `https://drive.usercontent.google.com/download?id=${driveId}&export=download&confirm=t&uuid=${uuid}`;
 
+        // Get total size via HEAD so we can cap open-ended ranges correctly
+        const head = await fetch(googleUrl, {
+          method: "HEAD",
+          redirect: "follow",
+        });
+        const totalSizeRaw = head.headers.get("content-length");
+        if (!head.ok || !totalSizeRaw) {
+          return new Response("Could not determine video size", { status: 502 });
+        }
+        const totalSize = parseInt(totalSizeRaw, 10);
+
         const range = request.headers.get("range");
         const headers = new Headers();
 
         const maxChunkSize = 1024 * 1024; // 1 MB
-        const totalSize = 167833519; // We should get the actual size from a HEAD request
 
         let upstreamRange: string | null = null;
         if (range) {
