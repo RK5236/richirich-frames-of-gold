@@ -54,7 +54,7 @@ export function DrivePlayer({
           playsInline
           muted
           preload="auto"
-          className="absolute inset-0 h-full w-full bg-black"
+          className="absolute inset-0 h-full w-full bg-black object-contain"
           onError={() => setError(true)}
         />
       ) : (
